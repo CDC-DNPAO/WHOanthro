@@ -54,9 +54,13 @@ Returns a data.table containing the original data and various weight, height, an
 Variables in output:
 
 waz: weight-for-sex/age z-score
+
 lhaz: length (or height) for sex/age z-score
+
 wflz: weight-for-length for sex z-score
+
 bmiz: BMI-for-sex/age z-score
+
 headcz: head circumference for sex/age z-score
 
 }
@@ -74,9 +78,13 @@ Do NOT put arguments in quotation marks, such as whoanthro(data,'agedays','wt','
 
 Reference data are the EXPANDED LMS data tables (at bottom of page) files at
 \url{https://www.who.int/tools/child-growth-standards/standards/weight-for-length-height}
+
 \url{https://www.who.int/tools/child-growth-standards/standards/length-height-for-age}
+
 \url{https://www.who.int/tools/child-growth-standards/standards/weight-for-age}
+
 \url{https://www.who.int/toolkits/child-growth-standards/standards/body-mass-index-for-age-bmi-for-age}
+
 \url{https://www.who.int/tools/child-growth-standards/standards/head-circumference-for-age}
 }
 
