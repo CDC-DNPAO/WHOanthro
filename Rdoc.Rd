@@ -1,10 +1,10 @@
 \name{whoanthro}
 \alias{whoanthro}
-\alias{age_in_months}
-\alias{weight_kg}
-\alias{height_cm}
-\alias{ref_data}
-\alias{nhanes}
+\alias{agedays}
+\alias{wt}
+\alias{lenhei}
+\alias{who_ref_data}
+\alias{Nhanes}
 \alias{data}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
@@ -18,10 +18,10 @@ installed; library(whoanthro) will also attach data.table.
 
 }
 \usage{
-To install package:
-install.packages('https://raw.github.com/CDC-DNPAO/WHOAnthro/master/whoanthro_0.1.1.tar.gz', type='source', repos=NULL)
+# To install package:
+# install.packages('https://raw.github.com/CDC-DNPAO/WHOAnthro/master/whoanthro_0.1.1.tar.gz', type='source', repos=NULL)
 
-whoanthro(data, agedays = age_in_days, wt = weight_kg, lenhei = length or height, headc=head_circumference, bmi = bmi)
+whoanthro(data, agedays = agedays, wt = wt, lenhei = lenhei, headc=headc, bmi = bmi)
 # If a variable (e.g, head circumference) is missing for all records, specify as '= NA' in funtion.
 # So, whoanthro(data, agedays, wt, lenhei, headc=NA, bmi)
 
@@ -30,8 +30,8 @@ whoanthro(data, agedays = age_in_days, wt = weight_kg, lenhei = length or height
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{data}{data.frame or data.table}
-  \item{agedays}{agedays in days.}
+  \item{data}{input data.frame or data.table}
+  \item{agedays}{agedays.}
   \item{wt}{weight (kg).}
   \item{lenhei}{recumbent length or standing height (cm).}
   \item{headc}{head circumference (cm).}
@@ -86,15 +86,13 @@ Reference data are the EXPANDED LMS data tables (at bottom of page) files at
 \url{http://www.who.int/childgrowth/standards/technical_report/en/}
 }
 \examples{
-nhanes   # NHANES data (2015/16 and 2017/18)
-data = whoanthro(nhanes, agedays, wt, lenhei, headc, bmi)
+Nhanes   # NHANES data (1999/2000 through and 2017/18)
+data = whoanthro(Nhanes, agedays, wt, lenhei, headc, bmi)
 round(data,2)
 
 # if head circumference, for example, is not in data or all its values are missing: 
-data = whoanthro(nhanes, agedays, wt, lenhei, headc=NA, bmi)
+data = whoanthro(Nhanes, agedays, wt, lenhei, headc=NA, bmi)
 round(data, 2)
-
-
 }
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the
