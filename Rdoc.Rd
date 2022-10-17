@@ -18,9 +18,12 @@ installed; library(whoanthro) will also attach data.table.
 
 }
 \usage{
+To install package:
+install.packages('https://raw.github.com/CDC-DNPAO/WHOAnthro/master/whoanthro_0.1.1.tar.gz', type='source', repos=NULL)
+
 whoanthro(data, agedays = age_in_days, wt = weight_kg, lenhei = length or height, headc=head_circumference, bmi = bmi)
-# If a variable (e.g, head circumference) is missing for all records or if you're not interested in the z-score, specify as '= NA' in funtion.
-# So, if not interested in head circumference, use: whoanthro(data, agedays, wt, lenhei, headc=NA, bmi)
+# If a variable (e.g, head circumference) is missing for all records, specify as '= NA' in funtion.
+# So, whoanthro(data, agedays, wt, lenhei, headc=NA, bmi)
 
 # Do NOT put arguments in quotation marks
 
@@ -39,61 +42,61 @@ whoanthro(data, agedays = age_in_days, wt = weight_kg, lenhei = length or height
 Expects 'sex' to be a variable in the dataset. Can be coded as either 'boys/girls' or 
 'male/female' or '1/2'.  Character values can be upper or lower case; only the first character is considered.
 
-Weight is in kg, and lenhei is length or height in cm.  BMI is kg/m^2.
+Weight is in kg, and lenhei is length or height in cm.  BMI is kg/m^2.  
 
 If age is in completed number of months, multiply by 30.4375 and add 15.219 (1/2 of 30.4375).  Then take the floor of this value. Age in the WHO reference data is givent as 0 to 1826 days.
-If there is a single 'height' field, it iss likely that recumbent length was measured for children under 2.0 years.  If there are separate height and length fields, let 'lenhei' be equal to length 
-for children under 2.0 years and be equal to height for children over 2.0 y.
+
 }
 
 \value{
-Returns a data.table containing the original data and various z-scores and percentiles.  If convert a data.table to this to a dataframe with 'setDF(output_data)'.
+Returns a data.table containing the original data and various weight, height, and BMI metrics.  Can convert this to a dataframe with 'setDF(output_data)'.
 
 Variables in output:
 
 waz: weight-for-sex/age z-score
 lhaz: length (or height) for sex/age z-score
-wflz: weight-for-length (and sex) z-score
+wflz: weight-for-length for sex z-score
 bmiz: BMI-for-sex/age z-score
 headcz: head circumference for sex/age z-score
 
-  
 }
 \references{
 World Health Organization. Department of Nutrition for Health and Development. WHO Child Growth Standards. Length/height-for-age, weight-for-age, weight-for-length, weight-for-height, and body mass index-for-age. Methods and Development [Internet]. Geneva; 2006.  
-Available from: http://www.who.int/childgrowth/standards/technical_report/en/
 
+http://www.who.int/childgrowth/standards/technical_report/en/
 }
+
 \author{
 David Freedman
- 
 }
 \note{
-Do NOT put arguments in quotation marks, such as cdcanthro(data,'agedays', 'wt','ht','headc', 'bmi').  Use: cdcanthro(data, age, wt, ht, headc, bmi)
+Do NOT put arguments in quotation marks, such as whoanthro(data,'agedays','wt','lenhei', 'headc','bmi').  Use: whocanthro(data, agedays, wt, lenhei, headc)
 
-Reference data are the expanded merged LMS data tables (at the bottom of various pages) on the WHO web site.  
-For example, length/height for age is at the bottom of 
+Reference data are the EXPANDED LMS data tables (at bottom of page) files at
+\url{https://www.who.int/tools/child-growth-standards/standards/weight-for-length-height}
 \url{https://www.who.int/tools/child-growth-standards/standards/length-height-for-age}
+\url{https://www.who.int/tools/child-growth-standards/standards/weight-for-age}
+\url{https://www.who.int/toolkits/child-growth-standards/standards/body-mass-index-for-age-bmi-for-age}
+\url{https://www.who.int/tools/child-growth-standards/standards/head-circumference-for-age}
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
+\url{http://www.who.int/childgrowth/standards/technical_report/en/}
 }
-
 \examples{
-nhanes   # NHANES data (1999/2000 through 2017/18)
-data = whoanthro(nhanes, agedays, wt, lenhei, headc, bmi) 
+nhanes   # NHANES data (2015/16 and 2017/18)
+data = whoanthro(nhanes, agedays, wt, lenhei, headc, bmi)
 round(data,2)
 
 # if head circumference, for example, is not in data or all its values are missing: 
-data = whoanthro(nhanes, agedays, wt, lenhei, headc=NA, bmi) # if head circ. if not in input dataset
+data = whoanthro(nhanes, agedays, wt, lenhei, headc=NA, bmi)
 round(data, 2)
-
-# setDF(data) to convert to a dataframe
 
 
 }
+
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory (show via RShowDoc("KEYWORDS")):
 % \keyword{ ~kwd1 }
