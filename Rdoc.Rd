@@ -19,8 +19,8 @@ installed; library(whoanthro) will also attach data.table.
 }
 \usage{
 whoanthro(data, agedays = age_in_days, wt = weight_kg, lenhei = length or height, headc=head_circumference, bmi = bmi)
-# If a variable (e.g, head circumference) is missing for all records, specify as '= NA' in funtion.
-# So, whoanthro(data, agedays, wt, lenhei, headc=NA, bmi)
+# If a variable (e.g, head circumference) is missing for all records or if you're not interested in the z-score, specify as '= NA' in funtion.
+# So, if not interested in head circumference, use: whoanthro(data, agedays, wt, lenhei, headc=NA, bmi)
 
 # Do NOT put arguments in quotation marks
 
@@ -42,34 +42,20 @@ Expects 'sex' to be a variable in the dataset. Can be coded as either 'boys/girl
 Weight is in kg, and lenhei is length or height in cm.  BMI is kg/m^2.
 
 If age is in completed number of months, multiply by 30.4375 and add 15.219 (1/2 of 30.4375).  Then take the floor of this value. Age in the WHO reference data is givent as 0 to 1826 days.
-
+If there is a single 'height' field, it iss likely that recumbent length was measured for children under 2.0 years.  If there are separate height and length fields, let 'lenhei' be equal to length 
+for children under 2.0 years and be equal to height for children over 2.0 y.
 }
 
 \value{
-Returns a data.table containing the original data and various weight, height, and BMI metrics.  Can convert this to a dataframe with 'setDF(output_data)'.
+Returns a data.table containing the original data and various z-scores and percentiles.  If convert a data.table to this to a dataframe with 'setDF(output_data)'.
 
 Variables in output:
 
-waz, haz, bmiz: CDC --for-age z-scores for Weight, Height, and BMI. BMIz is based on 2000 CDC growth charts (non-obese children) and extended BMIz (obese children)
-
-mod_waz, mod_haz, mod_bmiz: modified z-scores
-
-ext_bmip and ext_bmiz: extended BMI percentile and z-score.  See note to BMIz
-
-pre_2022_bmiz and pre_2022_bmip:  orignal calculations of BMIz and BMI percentile
-
-bmip95: BMI expressed as percentage of 95th percentile, 120 percent is lower threshold for severe obeseity
-
-if 'all = TRUE', then output other BMI metrics describe in Wei et al. paper.  Default is FALSE.  These express BMI as distance or percent distance from the median.  If percent of the median is desired, 100 can be added to the values.
-
+waz, lhaz, bmiz, and headcz: WHOC --for-sex/age z-scores for Weight, Length/Height, BMI, and head circumference. 
+  
 }
 \references{
-Kuczmarski RJ, Ogden CL, Guo SS, Grummer-Strawn LM, Flegal KM, Mei Z, et al. 2000 CDC Growth Charts for the United States: methods and development. Vital and Health Statistics Series 11, Data from the National Health Survey 2002;11:1–190.
 
-Wei R, Ogden CL, Parsons VL, Freedman DS, Hales CM. A method for calculating BMI z-scores and percentiles above the 95th percentile of the CDC growth charts. Annals of Human Biology 2020;47:514–21. \url{https://doi.org/10.1080/03014460.2020.1808065}.
-
-Freedman DS, Woo JG, Ogden CL, Xu JH, Cole TJ. Distance and Percent Distance from Median BMI as Alternatives to BMI z-score. Br J Nutr 2019;124:1–8.
-\url{https://doi.org/10.1017/S0007114519002046}.
 
 
 }
