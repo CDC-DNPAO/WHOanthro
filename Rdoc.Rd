@@ -51,43 +51,48 @@ Returns a data.table containing the original data and various z-scores and perce
 
 Variables in output:
 
-waz, lhaz, bmiz, and headcz: WHOC --for-sex/age z-scores for Weight, Length/Height, BMI, and head circumference. 
+waz: weight-for-sex/age z-score
+lhaz: length (or height) for sex/age z-score
+wflz: weight-for-length (and sex) z-score
+bmiz: BMI-for-sex/age z-score
+headcz: head circumference for sex/age z-score
+
   
 }
 \references{
-
-
+World Health Organization. Department of Nutrition for Health and Development. WHO Child Growth Standards. Length/height-for-age, weight-for-age, weight-for-length, weight-for-height, and body mass index-for-age. Methods and Development [Internet]. Geneva; 2006.  
+Available from: http://www.who.int/childgrowth/standards/technical_report/en/
 
 }
 \author{
 David Freedman
+ 
 }
 \note{
-Do NOT put arguments in quotation marks, such as cdcanthro(data,'age','wt','ht','bmi').  Use: cdcanthro(data, age, wt, ht, bmi)
+Do NOT put arguments in quotation marks, such as cdcanthro(data,'agedays', 'wt','ht','headc', 'bmi').  Use: cdcanthro(data, age, wt, ht, headc, bmi)
 
-Reference data are the merged LMS data files at
-\url{https://www.cdc.gov/growthcharts/percentile_data_files.htm}
+Reference data are the expanded merged LMS data tables (at the bottom of various pages) on the WHO web site.  
+For example, length/height for age is at the bottom of 
+\url{https://www.who.int/tools/child-growth-standards/standards/length-height-for-age}
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\url{https://www.cdc.gov/nccdphp/dnpao/growthcharts/resources/sas.htm}
 }
+
 \examples{
-data = expand.grid(sex=1:2, agem=120.5, wtk=c(30,60), htc=c(135,144));
-data$bmi = data$wtk / (data$htc/100)^2;
-data = cdcanthro(data, age=agem, wt=wtk, ht=htc, bmi);
-# OR data = cdcanthro(data, agem, wtk, htc, bmi);
+nhanes   # NHANES data (1999/2000 through 2017/18)
+data = whoanthro(nhanes, agedays, wt, lenhei, headc, bmi) 
 round(data,2)
+
+# if head circumference, for example, is not in data or all its values are missing: 
+data = whoanthro(nhanes, agedays, wt, lenhei, headc=NA, bmi) # if head circ. if not in input dataset
+round(data, 2)
+
 # setDF(data) to convert to a dataframe
 
-nhanes   # NHANES data (2015/16 and 2017/18)
-nhanes  = nhanes[!is.na(bmi),] # exclude subjects with missing wt/ht
-nhanes$agemos = nhanes$agemos + 0.5   # because agemos is completed number of months
-data = cdcanthro(nhanes, age=agemos, wt, ht, bmi, all=TRUE)
-# OR data = cdcanthro(nhanes, agemos, wt, ht, bmi, all=TRUE)
-round(data, 2)
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory (show via RShowDoc("KEYWORDS")):
