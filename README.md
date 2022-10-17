@@ -29,9 +29,13 @@ Returns a data.table containing the original data and various weight, height, an
 ### Variables in output:
 
 waz: weight-for-sex/age z-score
+
 lhaz: length (or height) for sex/age z-score
+
 wflz: weight-for-length for sex z-score
+
 bmiz: BMI-for-sex/age z-score
+
 headcz: head circumference for sex/age z-score
 
 ### References:
