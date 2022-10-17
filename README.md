@@ -41,11 +41,11 @@ http://www.who.int/childgrowth/standards/technical_report/en/
 Author: D Freedman
 
 Reference data are the EXPANDED LMS data tables (at bottom of page) files at
-\url{https://www.who.int/tools/child-growth-standards/standards/weight-for-length-height}
-\url{https://www.who.int/tools/child-growth-standards/standards/length-height-for-age}
-\url{https://www.who.int/tools/child-growth-standards/standards/weight-for-age}
-\url{https://www.who.int/toolkits/child-growth-standards/standards/body-mass-index-for-age-bmi-for-age}
-\url{https://www.who.int/tools/child-growth-standards/standards/head-circumference-for-age}
+https://www.who.int/tools/child-growth-standards/standards/weight-for-length-height
+https://www.who.int/tools/child-growth-standards/standards/length-height-for-age
+https://www.who.int/tools/child-growth-standards/standards/weight-for-age
+https://www.who.int/toolkits/child-growth-standards/standards/body-mass-index-for-age-bmi-for-age
+https://www.who.int/tools/child-growth-standards/standards/head-circumference-for-age
 }
 
 nhanes   # NHANES data (2015/16 and 2017/18)
