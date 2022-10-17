@@ -1,6 +1,6 @@
 # WHOanthro
 
-#### GENERATE SEX- AND AGE (or LENGTH)-STANDARDIZED WEIGHT, HEIGHT/LENGHT, AND BMI METRICS FROM THE WHO GROWTH CHARTS
+#### GENERATE SEX- AND AGE (or LENGTH)-STANDARDIZED WEIGHT, HEIGHT/LENGTH, AND BMI METRICS FROM THE WHO GROWTH CHARTS
 
 Has a single function, 'whoanthro'.  Requires the package data.table to be installed; library(whoanthro) will also attach data.table.
 
