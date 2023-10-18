@@ -4,7 +4,7 @@
 
 Has a single function, 'whoanthro'.  Requires the package data.table to be installed; library(whoanthro) will also attach data.table.  These calculations are similar to those at https://www.cdc.gov/nccdphp/dnpao/growthcharts/resources/sas-who.htm.  
 
-Although there is a CRAN package, anthro, for generating z-scores based on the WHO growth charts, whoanthro is much faster and combines your original data with the calculated z-scores and percentiles.  In contrast, anthro::anthro_zscores outputs only the calculated z-scores forcing you to use cbind to combine the output with your original data.
+Although there is a CRAN package, anthro, for generating z-scores based on the WHO growth charts, whoanthro is much faster and combines your original data with the calculated z-scores and percentiles.  In contrast, anthro::anthro_zscores outputs only the calculated z-scores forcing you to cbind them with your original data (and hope that the row order is correct).
 
 #### To install package:
 
