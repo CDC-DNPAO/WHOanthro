@@ -28,6 +28,11 @@
 # https://www.cdc.gov/nccdphp/dnpao/growthcharts/resources/sas.htm
 # (4th paragraph, before 'Instructions for SAS Users)
 
+# note that who0607 in the sitar package contains ref data for older kids, but
+# 1) the older data is given in 2-week intervals, 
+# 2) the wt data goes up to only 10 y of age
+# 3) the younger data is given in 1-week intervals
+
 # lenhei
 
 .c <- function (...) as.character(substitute(c(...))[-1L])
@@ -58,12 +63,12 @@ set_cols_first <- function (DT, colen_s, intersection = TRUE) # thanks to hutils
 }
 
 w_zscore=function(var, l, m, s){ 
-   ls=l*s; invl=1/l
-   z = (((var/m) ^ l) -1) / (ls) # z-score formula
-   sdp2 = (m * (1 + 2*ls) ^ (invl)) 
-   sdp3 = (m * (1 + 3*ls) ^ (invl))
-   sdm2 = (m * (1 - 2*ls) ^ (invl)) 
-   sdm3 = (m * (1 - 3*ls) ^ (invl))
+   invl=1/l
+   z = (((var/m) ^ l) -1) / (l*s) # z-score formula
+   sdp2 = (m * (1 + 2*l*s) ^ (invl)) 
+   sdp3 = (m * (1 + 3*l*s) ^ (invl))
+   sdm2 = (m * (1 - 2*l*s) ^ (invl)) 
+   sdm3 = (m * (1 - 3*l*s) ^ (invl))
    z=fcase(
       z >= -3 & z < 3, z,
       z > 3, 3 + (var - sdp3)/(sdp3 - sdp2),

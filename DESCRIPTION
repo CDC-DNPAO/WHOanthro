@@ -1,0 +1,11 @@
+Package: whoanthro
+Title: Calculate various z-scores, percentiles, etc. from the WHO growth charts
+Version: 0.1.1
+# Author: David Freedman [aut, cre]
+Authors@R: c(person("David", "Freedman", role = c("aut", "cre"), email = "dxf1@cdc.gov"))
+# Maintainer: David Freedman <dxf1@cdc.gov>
+Depends: R (>= 3.1.0), data.table (>= 1.13.0)
+License: Apache License (== 2.0)
+Description: Calculates z-scores for weight,length/height, BMI, and weight-for-length based on WHO reference data 
+Encoding: UTF-8
+LazyData: true
