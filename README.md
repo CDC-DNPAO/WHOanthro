@@ -66,7 +66,8 @@ nhanes   # NHANES data (2015/16 and 2017/18)
 data = whoanthro(nhanes, agedays, wt, lenhei, headc, bmi)
 round(data,2)
 
-if head circumference, for example, is not in data or all its values are missing: 
+if head circumference, for example, is not in dataset:
 
-data = whoanthro(nhanes, agedays, wt, lenhei, headc=NA, bmi)
+data = whoanthro(nhanes, agedays, wt, lenhei, bmi=bmi)
+data = whoanthro(nhanes, agedays, wt, lenhei, , bmi)
 round(data, 2)
