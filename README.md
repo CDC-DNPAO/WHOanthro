@@ -69,5 +69,7 @@ round(data,2)
 if head circumference, for example, is not in dataset:
 
 data = whoanthro(nhanes, agedays, wt, lenhei, bmi=bmi)
+
 data = whoanthro(nhanes, agedays, wt, lenhei, , bmi)
+
 round(data, 2)
