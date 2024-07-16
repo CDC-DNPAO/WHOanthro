@@ -15,13 +15,11 @@
 
 #############################
 # this is for children between 0 and <24 months of age
-# computes z-score, modified z-score, extended WHZ (and percentiles) 
-# and other BMI metrics based on the WHO growth charts
+# computes z-scores and modified z-scores based on the WHO growth charts
+# weight,height,WFL, head circ, and BMI
 
 # Note - sex can be coded as 1 (boys) or 2 (girs) OR BOYS/GIRLS or b/g
 # Alen_so need wt (kg), length (cm), and age in *** days ***
-# The names of wt, length and age can be anything in your data
-# Alen_so need the reference data for the len_mS files
 
 # About the WHO reference values for the L M and S parameters:
 # refdata_dir is folder that contains 'CDCref_d.csv' - this file can be download from  
@@ -33,19 +31,8 @@
 # 2) the wt data goes up to only 10 y of age
 # 3) the younger data is given in 1-week intervals
 
-# lenhei
 
 .c <- function (...) as.character(substitute(c(...))[-1L])
-
-fnames <- function(vars,d){
-      vars=unique(vars);
-      vars[vars %nin% names(d)]
-      }
-
-fdel <- function(x,d){
-      x=x[x %nin% fnames(x,d)];
-      if (length(x)>0) d[,(x):=NULL]; 
-}   
 
 fvalid <- function(x){
    length(x[!is.na(x)])
@@ -62,7 +49,24 @@ set_cols_first <- function (DT, colen_s, intersection = TRUE) # thanks to hutils
       }
 }
 
-w_zscore=function(var, l, m, s){ 
+# for length and headcirc.  No adjustment for z-scores outside [-3, +3]
+whoz_1=function(var, l, m, s){ 
+   invl=1/l
+   z = (((var/m) ^ l) -1) / (l*s) # z-score formula
+   sdp2 = (m * (1 + 2*l*s) ^ (invl)) 
+   sdp3 = (m * (1 + 3*l*s) ^ (invl))
+   sdm2 = (m * (1 - 2*l*s) ^ (invl)) 
+   sdm3 = (m * (1 - 3*l*s) ^ (invl))
+   # z=fcase(
+   #    z >= -3 & z < 3, z,
+   #    z > 3, 3 + (var - sdp3)/(sdp3 - sdp2),
+   #    z < (-3), -3 - abs((var - sdm3)/(sdm2 - sdm3))
+   # )
+   list(z, sdp2, sdp3, sdm2,sdm3)
+}
+
+# for WAZ, WFL, and BMI
+whoz_2=function(var, l, m, s){ 
    invl=1/l
    z = (((var/m) ^ l) -1) / (l*s) # z-score formula
    sdp2 = (m * (1 + 2*l*s) ^ (invl)) 
@@ -77,6 +81,7 @@ w_zscore=function(var, l, m, s){
    list(z, sdp2, sdp3, sdm2,sdm3)
 }
 
+
 whoanthro <- function(data,
                agedays = agedays, 
                wt = wt, 
@@ -85,9 +90,9 @@ whoanthro <- function(data,
                bmi = bmi
                )
 {
-      wfl_m <- seq_ <- denom <- 
+      wfl_m <- seq_ <- denom <- sexn <- sex <- 
       waz <- sdp2 <- sdp3 <- sdm2 <- sdm3 <- len <- 
-      lhaz <- bmiz <- headz <- lhaz <- wfl_l <- wflm <- wfl_s <- wflz <- 
+      lhaz <- bmiz <- headcz <- lhaz <- wfl_l <- wflm <- wfl_s <- wflz <- 
       weight <- height <- bmi_l <- bmi_s <-  bmi_m <- NULL
    
    if (is.data.table(data) == FALSE) data <- as.data.table(data) 
@@ -106,7 +111,12 @@ whoanthro <- function(data,
    data$wt <- data[[deparse(substitute(wt))]]
    data$bmi <- data[[deparse(substitute(bmi))]]
    data$lenhei <- data[[deparse(substitute(lenhei))]]
-   data$headc <- data[[deparse(substitute(headc))]]
+  
+   if ('headc' %in% names(data)) {
+      data$headc <- data[[deparse(substitute(headc))]]
+   } else {
+      data$headc <- NA
+   }
    
    if (('agedays' %chin% names(data)) == FALSE){
       stop('There must be an variable for age in days in the data')
@@ -121,7 +131,7 @@ whoanthro <- function(data,
    
    data <- data[agedays<=1856, .(seq_, sex,sexn,agedays,wt,lenhei,headc,bmi)]; 
    # WFL calculations do not go over 110 cm because they're 'for length'
-   # (ame as WFH calculation in CRAN anthro)
+   # (same as WFH calculation in CRAN anthro)
 
    dref1 <- who_ref_data[(denom=='forage' & agedays<1857) | denom=='forlen']
    # setkey(data,sexn,agedays); setkey(dref1,sexn,agedays)
@@ -129,22 +139,24 @@ whoanthro <- function(data,
    
    # waz
    dt1[,.c(waz, sdp2,sdp3,sdm2,sdm3):= 
-          w_zscore(dt1$wt, dt1$wei_l, dt1$wei_m, dt1$wei_s)]
+         whoz_2(dt1$wt, dt1$wei_l, dt1$wei_m, dt1$wei_s)]
  
    # lhaz length/height for age z-score
+   if (fvalid(dt1$lenhei) > 0){
    dt1[,.c(lhaz, sdp2,sdp3,sdm2,sdm3):= 
-          w_zscore(dt1$lenhei, dt1$len_l, dt1$len_m, dt1$len_s)]
+         whoz_1(dt1$lenhei, dt1$len_l, dt1$len_m, dt1$len_s)]
+   }
    
    # bmiz
    if (fvalid(dt1$bmi) > 0){
    dt1[,.c(bmiz, sdp2,sdp3,sdm2,sdm3):= 
-          w_zscore(dt1$bmi, dt1$bmi_l, dt1$bmi_m, dt1$bmi_s)]
+         whoz_2(dt1$bmi, dt1$bmi_l, dt1$bmi_m, dt1$bmi_s)]
    }
    
    # head circumference z-score
    if (fvalid(dt1$headc) > 0){
    dt1[,.c(headcz, sdp2,sdp3,sdm2,sdm3):= 
-          w_zscore(dt1$headc, dt1$headc_l, dt1$headc_m, dt1$headc_s)]
+         whoz_1(dt1$headc, dt1$headc_l, dt1$headc_m, dt1$headc_s)]
    }
    
    # wflz (weight-for-length z-score)
@@ -153,7 +165,7 @@ whoanthro <- function(data,
    setkey(data,sexn,lenhei); setkey(dref2,sexn,len)
    dt2 <- dref2[data,nomatch=0]; 
    dt2[,.c(wflz, sdp2,sdp3,sdm2,sdm3):= 
-          w_zscore(dt2$wt, dt2$wfl_l, dt2$wfl_m, dt2$wfl_s)]
+         whoz_2(dt2$wt, dt2$wfl_l, dt2$wfl_m, dt2$wfl_s)]
    
    x <- unique(grep('sd[mp]|[incl]_|sexn', names(dt1), value=T)); 
    dt1[,(x):=NULL] 
