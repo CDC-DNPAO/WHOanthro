@@ -8,7 +8,9 @@ Although there is a CRAN package, anthro, for generating z-scores based on the W
 
 #### To install package:
 
-library(remotes) # install if necessary: install.package('remotes')
+# install remotes package if not installed: install.package('remotes')
+
+library(remotes) 
 
 remotes::install_url("https://raw.githubusercontent.com/CDC-DNPAO/WHOanthro/main/whoanthro_0.1.1.tar.gz")
 
