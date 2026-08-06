@@ -12,14 +12,6 @@ library(remotes) # install if necessary: install.package('remotes')
 
 remotes::install_url("https://raw.githubusercontent.com/CDC-DNPAO/WHOanthro/main/whoanthro_0.1.1.tar.gz")
 
-u <- "https://raw.githubusercontent.com/CDC-DNPAO/WHOanthro/main/whoanthro_0.1.1.tar.gz"
-
-f <- file.path(tempdir(), "whoanthro_0.1.1.tar.gz")
-
-download.file(u, f, mode = "wb")      # mode="wb" is essential for a binary file
-
-install.packages(f, type = "source", repos = NULL)
-
 Sorry, this will be improved soon: I plan to add this function to the cdcanthro package on CRAN.  I'm retired, so this might take some time.
 
 #### To use package:
