@@ -8,7 +8,7 @@ Although there is a CRAN package, anthro, for generating z-scores based on the W
 
 #### To install package:
 
-# install remotes package if not installed: install.package('remotes')
+install.package('remotes') # if not already installed
 
 library(remotes) 
 
