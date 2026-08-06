@@ -8,6 +8,8 @@ Although there is a CRAN package, anthro, for generating z-scores based on the W
 
 #### To install package:
 
+install.packages('https://raw.githubusercontent.com/CDC-DNPAO/WHOanthro/main/whoanthro_0.1.0.tar.gz', type='source', repos=NULL)
+
 u <- "https://raw.githubusercontent.com/CDC-DNPAO/WHOanthro/main/whoanthro_0.1.1.tar.gz"
 
 f <- file.path(tempdir(), "whoanthro_0.1.1.tar.gz")
